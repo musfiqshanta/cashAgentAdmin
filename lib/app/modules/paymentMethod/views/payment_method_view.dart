@@ -1,33 +1,35 @@
 import 'package:cash_agent_admin/app/constant/custom_text.dart';
 import 'package:cash_agent_admin/app/constant/general_widget.dart';
-import 'package:cash_agent_admin/app/modules/company/views/add_company.dart';
+import 'package:cash_agent_admin/app/modules/paymentMethod/views/add_payment_method.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../controllers/company_controller.dart';
 
-class CompanyView extends GetView<CompanyController> {
-  const CompanyView({super.key});
+import 'package:get/get.dart';
+
+import '../controllers/payment_method_controller.dart';
+
+class PaymentMethodView extends GetView<PaymentMethodController> {
+  const PaymentMethodView({super.key});
   @override
   Widget build(BuildContext context) {
-    final company = FirebaseFirestore.instance.collection('company');
-
+    final paymentMethod = FirebaseFirestore.instance.collection(
+      'paymentMethod',
+    );
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Company'),
+        title: const Text('Payment Method'),
         centerTitle: true,
-
         actions: [
           IconButton(
             onPressed: () {
-              Get.to(AddCompany());
+              Get.to(AddPaymentMethod());
             },
             icon: Icon(Icons.add),
           ),
         ],
       ),
       body: StreamBuilder(
-        stream: company.orderBy('index', descending: true).snapshots(),
+        stream: paymentMethod.orderBy('index', descending: true).snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return loading;
@@ -44,6 +46,20 @@ class CompanyView extends GetView<CompanyController> {
                   },
                   leading: Image.asset('assets/img/upay.png'),
                   title: text(title: data.docs[index]['title']),
+                  subtitle: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      text(
+                        title:
+                            "Minimum : ${data.docs[index]['minimumAmount'].toString()} tk",
+                      ),
+                      text(
+                        title:
+                            "Service : ${data.docs[index]['serviceCharge'].toString()} tk",
+                      ),
+                    ],
+                  ),
                 ),
               );
               // return Padding(

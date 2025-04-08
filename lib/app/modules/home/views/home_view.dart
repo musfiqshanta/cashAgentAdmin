@@ -3,7 +3,7 @@ import 'package:cash_agent_admin/app/modules/addNotice/views/add_notice_view.dar
 import 'package:cash_agent_admin/app/modules/company/views/company_view.dart';
 import 'package:cash_agent_admin/app/modules/condition/views/condition_view.dart';
 import 'package:cash_agent_admin/app/modules/deposit/views/deposit_view.dart';
-import 'package:flutter/foundation.dart';
+import 'package:cash_agent_admin/app/modules/paymentMethod/views/payment_method_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -77,7 +77,9 @@ class HomeView extends GetView<HomeController> {
                   title: 'Payment Method',
                   icon: Icons.payment,
                   color: Get.theme.primaryColor,
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(PaymentMethodView());
+                  },
                 ),
               ],
             ),

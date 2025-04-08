@@ -10,6 +10,8 @@ import '../modules/deposit/bindings/deposit_binding.dart';
 import '../modules/deposit/views/deposit_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/paymentMethod/bindings/payment_method_binding.dart';
+import '../modules/paymentMethod/views/payment_method_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 
@@ -50,6 +52,11 @@ class AppPages {
       name: _Paths.COMPANY,
       page: () => const CompanyView(),
       binding: CompanyBinding(),
+    ),
+    GetPage(
+      name: _Paths.PAYMENT_METHOD,
+      page: () => const PaymentMethodView(),
+      binding: PaymentMethodBinding(),
     ),
   ];
 }
