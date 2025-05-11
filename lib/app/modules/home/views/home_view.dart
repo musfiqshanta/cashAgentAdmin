@@ -1,8 +1,12 @@
-import 'package:cash_agent_admin/app/constant/button.dart';
+import 'package:cash_agent_admin/app/constant/color.dart';
+import 'package:cash_agent_admin/app/constant/custom_text.dart';
 import 'package:cash_agent_admin/app/modules/addNotice/views/add_notice_view.dart';
 import 'package:cash_agent_admin/app/modules/company/views/company_view.dart';
 import 'package:cash_agent_admin/app/modules/condition/views/condition_view.dart';
-import 'package:cash_agent_admin/app/modules/deposit/views/deposit_view.dart';
+import 'package:cash_agent_admin/app/modules/depositWithdraw/controllers/deposit_controller.dart';
+import 'package:cash_agent_admin/app/modules/depositWithdraw/views/deposit_view.dart';
+import 'package:cash_agent_admin/app/modules/depositWithdraw/views/withdraw.dart';
+import 'package:cash_agent_admin/app/modules/options/views/options_view.dart';
 import 'package:cash_agent_admin/app/modules/paymentMethod/views/payment_method_view.dart';
 import 'package:flutter/material.dart';
 
@@ -14,78 +18,86 @@ class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
   @override
   Widget build(BuildContext context) {
+    final depositController = Get.put(DepositController());
     return Scaffold(
-      appBar: AppBar(title: const Text('HomeView'), centerTitle: true),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          spacing: 15,
-          children: [
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconElevatedButton(
-                  title: 'Add Notice',
-                  icon: Icons.notifications,
-                  color: Get.theme.primaryColor,
-                  onPressed: () {
-                    Get.to(AddNoticeView());
-                  },
-                ),
-                IconElevatedButton(
-                  title: 'Add Conditions',
-                  icon: Icons.rule,
-                  color: Get.theme.primaryColor,
-                  onPressed: () {
-                    Get.to(ConditionView());
-                  },
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconElevatedButton(
-                  title: 'Deposit',
-                  icon: Icons.account_balance_wallet,
-                  color: Get.theme.primaryColor,
-                  onPressed: () {
-                    Get.to(DepositView());
-                  },
-                ),
-                IconElevatedButton(
-                  title: 'Withdraw',
-                  icon: Icons.money_off,
-                  color: Get.theme.primaryColor,
-                  onPressed: () {},
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconElevatedButton(
-                  title: 'Company',
-                  icon: Icons.business,
-                  color: Get.theme.primaryColor,
-                  onPressed: () {
-                    Get.to(CompanyView());
-                  },
-                ),
-                IconElevatedButton(
-                  title: 'Payment Method',
-                  icon: Icons.payment,
-                  color: Get.theme.primaryColor,
-                  onPressed: () {
-                    Get.to(PaymentMethodView());
-                  },
-                ),
-              ],
-            ),
-          ],
+      appBar: AppBar(
+        flexibleSpace: Center(
+          child: Image.asset(
+            'assets/img/logo.png',
+            fit: BoxFit.contain,
+            width: 100,
+          ),
+        ),
+
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            spacing: 15,
+            children: [
+              SizedBox(height: 10),
+              menuList(
+                title: 'Deposit',
+                onTap: () async {
+                  Get.to(DepositView());
+                  await depositController.depositRequestsSortedByDate();
+                },
+              ),
+              menuList(
+                title: 'Withdraw',
+                onTap: () async {
+                  Get.to(WithdrawView());
+                  await depositController.withdrawRequestsSortedByDate();
+                },
+              ),
+              menuList(
+                title: 'Add Notice',
+                onTap: () {
+                  Get.to(AddNoticeView());
+                },
+              ),
+              menuList(
+                title: 'Add Conditions',
+                onTap: () {
+                  Get.to(ConditionView());
+                },
+              ),
+
+              menuList(
+                title: 'Company',
+                onTap: () {
+                  Get.to(CompanyView());
+                },
+              ),
+              menuList(
+                title: 'Payment Method',
+                onTap: () {
+                  Get.to(PaymentMethodView());
+                },
+              ),
+              menuList(
+                title: 'Options',
+                onTap: () {
+                  Get.to(OptionsView());
+                },
+              ),
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  ListTile menuList({required String title, void Function()? onTap}) {
+    return ListTile(
+      onTap: onTap,
+
+      title: text(title: title),
+      leading: Icon(Icons.notifications, color: gray),
+      tileColor: Get.theme.primaryColor,
+      splashColor: Colors.pink,
     );
   }
 }

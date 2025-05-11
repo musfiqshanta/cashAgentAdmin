@@ -8,11 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AddCompany extends GetView<AddNoticeController> {
-  const AddCompany({super.key});
+  const AddCompany({super.key, this.title, this.id, this.index});
+  final String? title, id;
+  final int? index;
   @override
   Widget build(BuildContext context) {
-    final titleController = TextEditingController();
-    final indexController = TextEditingController();
+    final titleController = TextEditingController(text: title);
+    final indexController = TextEditingController(text: index.toString());
     final companyController = Get.put(CompanyController());
     return Scaffold(
       appBar: AppBar(title: const Text('Add Company'), centerTitle: true),
@@ -52,7 +54,26 @@ class AddCompany extends GetView<AddNoticeController> {
                 }),
               ],
             ),
-
+            title != null
+                ? ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: red,
+                    fixedSize: Size(Get.width, 50),
+                    shape: RoundedRectangleBorder(
+                      // Use RoundedRectangleBorder instead of OutlineInputBorder
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () async {
+                    companyController.deleteCompany(
+                      titleController.text,
+                      id,
+                      int.parse(indexController.text),
+                    );
+                  },
+                  child: text(title: 'Delete Notice'),
+                )
+                : SizedBox.shrink(),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 fixedSize: Size(Get.width, 50),
@@ -78,12 +99,21 @@ class AddCompany extends GetView<AddNoticeController> {
                     backgroundColor: red,
                   );
                 }
-                companyController.addCompany(
-                  titleController.text,
-                  int.parse(indexController.text),
-                );
+                title != null
+                    ? companyController.updateCompany(
+                      titleController.text,
+                      id,
+                      int.parse(indexController.text),
+                    )
+                    : companyController.addCompany(
+                      titleController.text,
+                      int.parse(indexController.text),
+                    );
               },
-              child: text(title: 'Add Notice', color: black),
+              child: text(
+                title: title != null ? 'Update Company' : 'Add Company',
+                color: black,
+              ),
             ),
           ],
         ),

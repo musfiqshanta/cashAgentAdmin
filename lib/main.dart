@@ -1,5 +1,4 @@
 import 'package:cash_agent_admin/app/modules/home/views/home_view.dart';
-import 'package:cash_agent_admin/app/modules/profile/views/profile_view.dart';
 import 'package:cash_agent_admin/firebase_options.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,11 +7,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 
-void main() async{
-    WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -68,7 +65,7 @@ class _BodyState extends State<Body> {
           index: page,
           items: const <Widget>[
             Icon(Icons.home, size: 30, color: Colors.white),
-            Icon(Icons.perm_identity, size: 30, color: Colors.white),
+            // Icon(Icons.perm_identity, size: 30, color: Colors.white),
           ],
           color: Get.theme.primaryColor,
           buttonBackgroundColor: Get.theme.primaryColor,
@@ -82,9 +79,9 @@ class _BodyState extends State<Body> {
                 case 0:
                   child = const HomeView();
                   break;
-                case 1:
-                  child = const ProfileView();
-                  break;
+                // case 1:
+                //   child = const ProfileView();
+                //   break;
               }
             });
           },

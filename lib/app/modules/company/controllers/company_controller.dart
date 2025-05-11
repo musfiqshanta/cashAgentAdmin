@@ -45,4 +45,18 @@ class CompanyController extends GetxController {
       Get.back();
     });
   }
+
+  Future<void> updateCompany(String title, id, int index) {
+    return company.doc(id).update({'title': title, 'index': index}).then((
+      value,
+    ) {
+      Get.back();
+    });
+  }
+
+  Future<void> deleteCompany(String title, id, int index) {
+    return company.doc(id).delete().then((value) {
+      Get.back();
+    });
+  }
 }

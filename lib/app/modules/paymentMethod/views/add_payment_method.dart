@@ -16,6 +16,7 @@ class AddPaymentMethod extends GetView<AddNoticeController> {
     final indexController = TextEditingController();
     final minimumAmount = TextEditingController();
     final serviceCharge = TextEditingController();
+    final phoneNumber = TextEditingController();
     final companyController = Get.put(CompanyController());
     final paymentMethodController = Get.put(PaymentMethodController());
     return Scaffold(
@@ -44,6 +45,11 @@ class AddPaymentMethod extends GetView<AddNoticeController> {
               titleController: serviceCharge,
               hints: 'Service charge',
               label: "Service charge",
+            ),
+            textField(
+              titleController: phoneNumber,
+              hints: 'Wallet Number',
+              label: 'Wallet Number',
             ),
             textField(
               titleController: indexController,
@@ -105,7 +111,14 @@ class AddPaymentMethod extends GetView<AddNoticeController> {
                 } else if (serviceCharge.text.isEmpty) {
                   Get.snackbar(
                     'Error',
-                    'Add amount',
+                    'Add Service charge',
+                    duration: Duration(seconds: 3),
+                    backgroundColor: red,
+                  );
+                } else if (phoneNumber.text.isEmpty) {
+                  Get.snackbar(
+                    'Error',
+                    'Add Service charge',
                     duration: Duration(seconds: 3),
                     backgroundColor: red,
                   );
@@ -115,6 +128,7 @@ class AddPaymentMethod extends GetView<AddNoticeController> {
                   index: int.parse(indexController.text),
                   minimumAmount: int.parse(minimumAmount.text),
                   serviceCharge: int.parse(serviceCharge.text),
+                  phone: phoneNumber.text,
                 );
               },
               child: text(title: 'Add Payment Method', color: black),

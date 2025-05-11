@@ -6,10 +6,12 @@ import '../modules/company/bindings/company_binding.dart';
 import '../modules/company/views/company_view.dart';
 import '../modules/condition/bindings/condition_binding.dart';
 import '../modules/condition/views/condition_view.dart';
-import '../modules/deposit/bindings/deposit_binding.dart';
-import '../modules/deposit/views/deposit_view.dart';
+import '../modules/depositWithdraw/bindings/deposit_binding.dart';
+import '../modules/depositWithdraw/views/deposit_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/options/bindings/options_binding.dart';
+import '../modules/options/views/options_view.dart';
 import '../modules/paymentMethod/bindings/payment_method_binding.dart';
 import '../modules/paymentMethod/views/payment_method_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
@@ -57,6 +59,11 @@ class AppPages {
       name: _Paths.PAYMENT_METHOD,
       page: () => const PaymentMethodView(),
       binding: PaymentMethodBinding(),
+    ),
+    GetPage(
+      name: _Paths.OPTIONS,
+      page: () => const OptionsView(),
+      binding: OptionsBinding(),
     ),
   ];
 }

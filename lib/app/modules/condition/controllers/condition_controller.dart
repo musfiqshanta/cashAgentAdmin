@@ -17,7 +17,25 @@ class ConditionController extends GetxController {
           Get.back();
         });
   }
+  Future updateCondition(String condition,id) {
+    return admin
+        .doc('condition')
+        .collection('conditions').doc(id)
+        .update({'condition': condition, 'time': DateTime.now()})
+        .then((value) {
+       
+          Get.back();
+        });
+  }
 
-
-
+  Future removeNotice(String id) {
+    return admin
+        .doc('condition')
+        .collection('conditions')
+        .doc(id)
+        .delete()
+        .then((value) {
+          Get.back();
+        });
+  }
 }

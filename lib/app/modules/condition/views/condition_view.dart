@@ -41,7 +41,20 @@ class ConditionView extends GetView<ConditionController> {
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: text(title: data.docs[index]['condition']),
+                child: ListTile(
+                  onTap: () {
+                    Get.to(
+                      AddCondition(
+                        title: data.docs[index]['condition'],
+                        id: data.docs[index].id,
+                      ),
+                    );
+                  },
+
+                  tileColor: Get.theme.primaryColor,
+
+                  title: text(title: data.docs[index]['condition']),
+                ),
               );
             },
           );

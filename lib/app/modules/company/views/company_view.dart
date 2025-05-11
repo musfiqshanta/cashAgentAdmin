@@ -20,7 +20,7 @@ class CompanyView extends GetView<CompanyController> {
         actions: [
           IconButton(
             onPressed: () {
-              Get.to(AddCompany());
+              Get.to(AddCompany(), transition: Transition.rightToLeft);
             },
             icon: Icon(Icons.add),
           ),
@@ -39,10 +39,20 @@ class CompanyView extends GetView<CompanyController> {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListTile(
+                  onTap: () {
+                    Get.to(
+                      AddCompany(
+                        title: data.docs[index]['title'],
+                        index: data.docs[index]['index'],
+                        id: data.docs[index].id,
+                      ),
+                    );
+                  },
+                  tileColor: Get.theme.primaryColor,
                   onLongPress: () {
                     Get.snackbar('title', 'on long press');
                   },
-                  leading: Image.asset('assets/img/upay.png'),
+                  leading: Image.asset('assets/img/innovation.png'),
                   title: text(title: data.docs[index]['title']),
                 ),
               );

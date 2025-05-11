@@ -7,10 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AddCondition extends GetView<AddNoticeController> {
-  const AddCondition({super.key});
+  const AddCondition({super.key, this.title, this.id});
+
+  final String? title, id;
   @override
   Widget build(BuildContext context) {
-    final titleController = TextEditingController();
+    final titleController = TextEditingController(text: title);
     final addConditionController = Get.put(ConditionController());
     return Scaffold(
       appBar: AppBar(title: const Text('Add Condition'), centerTitle: true),
@@ -25,6 +27,22 @@ class AddCondition extends GetView<AddNoticeController> {
               hints: 'Condition Title',
               label: "Condition Title",
             ),
+            title != null
+                ? ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: red,
+                    fixedSize: Size(Get.width, 50),
+                    shape: RoundedRectangleBorder(
+                      // Use RoundedRectangleBorder instead of OutlineInputBorder
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () async {
+                    addConditionController.removeNotice(id!);
+                  },
+                  child: text(title: 'Delete Notice'),
+                )
+                : SizedBox.shrink(),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 fixedSize: Size(Get.width, 50),
@@ -43,9 +61,17 @@ class AddCondition extends GetView<AddNoticeController> {
                   );
                   return;
                 }
-                addConditionController.addCondition(titleController.text);
+                title != null
+                    ? addConditionController.updateCondition(
+                      titleController.text,
+                      id,
+                    )
+                    : addConditionController.addCondition(titleController.text);
               },
-              child: text(title: 'Add Condition', color: black),
+              child: text(
+                title: title != null ? 'Update Condition' : 'Add Condition',
+                color: black,
+              ),
             ),
           ],
         ),

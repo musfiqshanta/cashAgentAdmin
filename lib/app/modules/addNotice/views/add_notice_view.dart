@@ -23,7 +23,7 @@ class AddNoticeView extends GetView<AddNoticeController> {
         actions: [
           IconButton(
             onPressed: () {
-              Get.to(AddNotice());
+              Get.to(AddNotice(), transition: Transition.rightToLeft);
             },
             icon: Icon(Icons.add),
           ),
@@ -39,9 +39,27 @@ class AddNoticeView extends GetView<AddNoticeController> {
           return ListView.builder(
             itemCount: data!.docs.length,
             itemBuilder: (context, index) {
+              // return Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: text(title: data.docs[index]['notice']),
+              // );
+
               return Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: text(title: data.docs[index]['notice']),
+                child: ListTile(
+                  onTap: () {
+                    Get.to(
+                      AddNotice(
+                        title: data.docs[index]['notice'],
+                        id: data.docs[index].id,
+                      ),
+                    );
+                  },
+
+                  tileColor: Get.theme.primaryColor,
+
+                  title: text(title: data.docs[index]['notice']),
+                ),
               );
             },
           );

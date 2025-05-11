@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AddNotice extends GetView<AddNoticeController> {
-  const AddNotice({super.key});
+  const AddNotice({super.key, this.title, this.id});
+
+  final String? title, id;
   @override
   Widget build(BuildContext context) {
-    final titleController = TextEditingController();
+    final titleController = TextEditingController(text: title);
     final addNoticeController = Get.put(AddNoticeController());
     return Scaffold(
       appBar: AppBar(
@@ -35,6 +37,22 @@ class AddNotice extends GetView<AddNoticeController> {
               hints: 'Notice Title',
               label: "Notice Title",
             ),
+            title != null
+                ? ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: red,
+                    fixedSize: Size(Get.width, 50),
+                    shape: RoundedRectangleBorder(
+                      // Use RoundedRectangleBorder instead of OutlineInputBorder
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () async {
+                    addNoticeController.removeNotice(id!);
+                  },
+                  child: text(title: 'Delete Notice'),
+                )
+                : SizedBox.shrink(),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 fixedSize: Size(Get.width, 50),
@@ -53,9 +71,14 @@ class AddNotice extends GetView<AddNoticeController> {
                   );
                   return;
                 }
-                addNoticeController.addNotice(titleController.text);
+                title != null
+                    ? addNoticeController.updateNotice(titleController.text, id)
+                    : addNoticeController.addNotice(titleController.text);
               },
-              child: text(title: 'Add Notice', color: black),
+              child: text(
+                title: title != null ? 'Update Notice' : 'Add Notice',
+                color: black,
+              ),
             ),
           ],
         ),

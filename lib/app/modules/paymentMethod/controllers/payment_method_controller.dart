@@ -5,20 +5,6 @@ class PaymentMethodController extends GetxController {
   //TODO: Implement PaymentMethodController
   final paymentMethod = FirebaseFirestore.instance.collection('paymentMethod');
   final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   void increment() => count.value++;
 
@@ -27,6 +13,7 @@ class PaymentMethodController extends GetxController {
     required int minimumAmount,
     required int serviceCharge,
     required int index,
+    required String phone,
   }) {
     return paymentMethod
         .add({
@@ -34,6 +21,7 @@ class PaymentMethodController extends GetxController {
           "minimumAmount": minimumAmount,
           'serviceCharge': serviceCharge,
           'index': index,
+          'phone': phone,
         })
         .then((value) {
           Get.back();
