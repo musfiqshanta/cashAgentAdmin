@@ -38,26 +38,36 @@ class PaymentMethodView extends GetView<PaymentMethodController> {
           return ListView.builder(
             itemCount: data!.docs.length,
             itemBuilder: (context, index) {
+              final title = data.docs[index]['title'];
+              final ma = data.docs[index]['minimumAmount'].toString();
+              final sc = data.docs[index]['serviceCharge'].toString();
+              final wn = data.docs[index]['phone'].toString();
+              final pos = data.docs[index]['index'].toString();
+              final id =data.docs[index].id;
+
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListTile(
-                  onLongPress: () {
-                    Get.snackbar('title', 'on long press');
+                  onTap: () {
+                    Get.to(
+                      AddPaymentMethod(
+                        title: title,
+                        ma: ma,
+                        sc: sc,
+                        wn: wn,
+                        po: pos,
+                        id: id,
+                      ),
+                    );
                   },
-                  leading: Image.asset('assets/img/upay.png'),
-                  title: text(title: data.docs[index]['title']),
+                  leading: Icon(Icons.payment, size: 40, color: Colors.white),
+                  title: text(title: title),
                   subtitle: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      text(
-                        title:
-                            "Minimum : ${data.docs[index]['minimumAmount'].toString()} tk",
-                      ),
-                      text(
-                        title:
-                            "Service : ${data.docs[index]['serviceCharge'].toString()} tk",
-                      ),
+                      text(title: "Minimum : $ma tk"),
+                      text(title: "Service : $sc tk"),
                     ],
                   ),
                 ),

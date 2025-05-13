@@ -43,7 +43,7 @@ class CompanyView extends GetView<CompanyController> {
                     Get.to(
                       AddCompany(
                         title: data.docs[index]['title'],
-                        index: data.docs[index]['index'],
+                        index: data.docs[index]['index'].toString(),
                         id: data.docs[index].id,
                       ),
                     );

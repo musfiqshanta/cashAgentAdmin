@@ -27,4 +27,32 @@ class PaymentMethodController extends GetxController {
           Get.back();
         });
   }
+
+  Future<void> updatePaymentMethod({
+    required String title,
+    required int minimumAmount,
+    required int serviceCharge,
+    required int index,
+    required String phone,
+    required String? id,
+  }) {
+    return paymentMethod
+        .doc(id)
+        .update({
+          'title': title,
+          "minimumAmount": minimumAmount,
+          'serviceCharge': serviceCharge,
+          'index': index,
+          'phone': phone,
+        })
+        .then((value) {
+          Get.back();
+        });
+  }
+
+  Future<void> deletePaymentMethod(String id) {
+    return paymentMethod.doc(id).delete().then((onValue) {
+      Get.back();
+    });
+  }
 }

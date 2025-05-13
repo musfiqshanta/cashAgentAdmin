@@ -1,6 +1,7 @@
 import 'package:cash_agent_admin/app/constant/custom_text.dart';
 import 'package:cash_agent_admin/app/constant/general_widget.dart';
 import 'package:cash_agent_admin/app/modules/depositWithdraw/controllers/deposit_controller.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,13 +47,25 @@ class TransitionDetails extends GetView<DepositController> {
             return Column(
               spacing: 10,
               children: [
-                listDetails('Amount', amount.toString()),
-                listDetails('Company', company),
-                listDetails('company Id', companyId),
-                listDetails('Transition Id', transitionId),
-                listDetails('Wallet Name', walletName),
-                listDetails('Wallet Number', walletNumber.toString()),
-                listDetails('Time', formatted),
+                listDetails('Amount', amount.toString(), () {}),
+                listDetails('Company', company, () {}),
+                listDetails('company Id 📑', companyId, () {
+                  FlutterClipboard.copy(companyId).then((value) {
+                    snackBar('Success', 'Company Id copy on clipboard');
+                  });
+                }),
+                listDetails('Transition Id 📑', transitionId, () {
+                  FlutterClipboard.copy(transitionId).then((value) {
+                    snackBar('Success', 'Transition Id copy on clipboard');
+                  });
+                }),
+                listDetails('Wallet Name', walletName, () {}),
+                listDetails('Wallet Number 📑', walletNumber.toString(), () {
+                  FlutterClipboard.copy(walletNumber).then((value) {
+                    snackBar('Success', 'WalletNumber copy on clipboard');
+                  });
+                }),
+                listDetails('Time', formatted, () {}),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,7 +75,7 @@ class TransitionDetails extends GetView<DepositController> {
                         backgroundColor: Colors.green,
                       ),
                       onPressed: () {
-                        controller.transitionAction(
+                        controller.transitionApproved(
                           id,
                           uId,
                           collection,
@@ -76,7 +89,15 @@ class TransitionDetails extends GetView<DepositController> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        controller.transitionReject(
+                          id,
+                          uId,
+                          collection,
+                          true,
+                          amount,
+                        );
+                      },
                       child: text(title: "Rejected"),
                     ),
                   ],
@@ -89,8 +110,9 @@ class TransitionDetails extends GetView<DepositController> {
     );
   }
 
-  ListTile listDetails(String title, value) {
+  ListTile listDetails(String title, value, void Function()? onTap) {
     return ListTile(
+      onTap: onTap,
       tileColor: Get.theme.primaryColor,
       title: text(title: title),
       trailing: text(title: value),

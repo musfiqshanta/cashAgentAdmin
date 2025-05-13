@@ -65,7 +65,7 @@ class DepositController extends GetxController {
     return withdrawTransition;
   }
 
-  Future transitionAction(String id, uId, type, bool action, double amount) {
+  Future transitionApproved(String id, uId, type, bool action, double amount) {
     return FirebaseFirestore.instance
         .collection(type)
         .doc(id)
@@ -81,7 +81,24 @@ class DepositController extends GetxController {
           await depositRequestsSortedByDate();
           await withdrawRequestsSortedByDate();
           Get.back();
-          Get.snackbar("Attention", "Request approved", backgroundColor: green);
+          Get.snackbar("Attention", "Request approved", backgroundColor: red);
+        });
+  }
+
+  Future transitionReject(String id, uId, type, bool action, double amount) {
+    return FirebaseFirestore.instance
+        .collection(type)
+        .doc(id)
+        .update({'reject': action, 'approved': action})
+        .then((value) async {
+          await users.doc(uId).collection(type).doc(id).set({
+            "reject": action,
+            'approved': action,
+          }, SetOptions(merge: true));
+          await depositRequestsSortedByDate();
+          await withdrawRequestsSortedByDate();
+          Get.back();
+          Get.snackbar("Attention", "Request Rejected", backgroundColor: green);
         });
   }
 

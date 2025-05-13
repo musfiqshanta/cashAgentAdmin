@@ -16,6 +16,8 @@ import '../modules/paymentMethod/bindings/payment_method_binding.dart';
 import '../modules/paymentMethod/views/payment_method_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
+import '../modules/user/bindings/user_binding.dart';
+import '../modules/user/views/user_view.dart';
 
 part 'app_routes.dart';
 
@@ -64,6 +66,11 @@ class AppPages {
       name: _Paths.OPTIONS,
       page: () => const OptionsView(),
       binding: OptionsBinding(),
+    ),
+    GetPage(
+      name: _Paths.USER,
+      page: () => const UserView(),
+      binding: UserBinding(),
     ),
   ];
 }

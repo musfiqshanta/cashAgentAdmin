@@ -54,7 +54,7 @@ class CompanyController extends GetxController {
     });
   }
 
-  Future<void> deleteCompany(String title, id, int index) {
+  Future<void> deleteCompany(String id) {
     return company.doc(id).delete().then((value) {
       Get.back();
     });

@@ -34,7 +34,10 @@ class DepositView extends GetView<DepositController> {
                 itemCount: depositController.depositTransition.length,
                 itemBuilder: (context, index) {
                   final assetPath =
-                      depositController.depositTransition[index]['company'];
+                      depositController.depositTransition[index]['company']
+                          .toString()
+                          .toLowerCase();
+                  ;
                   final wallet =
                       depositController.depositTransition[index]['walletName']
                           .toString()
@@ -103,9 +106,7 @@ class DepositView extends GetView<DepositController> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 FutureBuilder(
-                                  future: depositController.assetExists(
-                                    wallet,
-                                  ),
+                                  future: depositController.assetExists(wallet),
                                   builder: (context, snapshot) {
                                     if (!snapshot.hasData) {
                                       return const SizedBox.shrink();

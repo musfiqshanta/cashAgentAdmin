@@ -9,12 +9,12 @@ import 'package:get/get.dart';
 
 class AddCompany extends GetView<AddNoticeController> {
   const AddCompany({super.key, this.title, this.id, this.index});
-  final String? title, id;
-  final int? index;
+  final String? title, id, index;
+
   @override
   Widget build(BuildContext context) {
     final titleController = TextEditingController(text: title);
-    final indexController = TextEditingController(text: index.toString());
+    final indexController = TextEditingController(text: index);
     final companyController = Get.put(CompanyController());
     return Scaffold(
       appBar: AppBar(title: const Text('Add Company'), centerTitle: true),
@@ -65,11 +65,7 @@ class AddCompany extends GetView<AddNoticeController> {
                     ),
                   ),
                   onPressed: () async {
-                    companyController.deleteCompany(
-                      titleController.text,
-                      id,
-                      int.parse(indexController.text),
-                    );
+                    companyController.deleteCompany(id!);
                   },
                   child: text(title: 'Delete Notice'),
                 )
